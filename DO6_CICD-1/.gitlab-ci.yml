@@ -1,0 +1,56 @@
+stages:
+  - build
+  - codestyle-check
+  - integration-test
+  - deploy
+
+build-cat:
+  stage: build
+  script:
+    - bash src/build.sh cat
+  artifacts:
+    paths:
+      - src/cat/build/s21_cat
+    expire_in: 1 month  
+
+build-grep:
+  stage: build
+  script:
+    - bash src/build.sh grep
+  artifacts:
+    paths:
+      - src/grep/build/s21_grep
+    expire_in: 1 month 
+
+test-codestyle-cat:
+  stage: codestyle-check
+  script:
+    - bash src/codestyle.sh cat
+
+test-codestyle-grep:
+  stage: codestyle-check
+  script:
+    - bash src/codestyle.sh grep
+
+integration-test-cat:
+  stage: integration-test
+  script:
+    - bash src/integration.sh cat
+
+integration-test-grep:
+  stage: integration-test
+  script:
+    - bash src/integration.sh grep
+
+deploy-cat:
+  stage: deploy
+  script:
+    - bash src/deploy.sh cat
+  when: manual
+
+deploy-grep:
+  stage: deploy
+  script:
+    - bash src/deploy.sh grep
+  when: manual
+
